@@ -171,6 +171,8 @@ All expressions are evaluated and if no exception is thrown the value of the las
 ```phel
 (try) # evaluates to nil
 
+(use \Exception)
+
 (try
   (throw (php/new Exception))
   (catch Exception e "error")) # evaluates to "error"
