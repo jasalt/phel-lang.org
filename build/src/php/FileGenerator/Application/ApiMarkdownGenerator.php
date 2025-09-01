@@ -23,6 +23,7 @@ final readonly class ApiMarkdownGenerator
 
         foreach ($groupedPhelFns as $fn) {
             $result[] = "## `{$fn->fnName()}`";
+            $result[] = "**Namespace:** `" . $this->extractNamespace($fn->fnName()) . "`";
             $result[] = $fn->doc();
             if ($fn->url() !== '') {
                 $result[] = sprintf('Read more [here](%s).', $fn->url());
@@ -30,6 +31,20 @@ final readonly class ApiMarkdownGenerator
         }
 
         return $result;
+    }
+
+    /**
+     * Extract namespace from function name
+     */
+    private function extractNamespace(string $fnName): string
+    {
+        $parts = explode('/', $fnName);
+        if (count($parts) > 1) {
+            array_pop($parts); // Remove the function name part
+            return implode('/', $parts); // Join remaining parts as namespace
+        }
+        
+        return 'core'; // Default namespace
     }
 
     /**
