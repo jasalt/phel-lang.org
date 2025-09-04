@@ -24,15 +24,28 @@ final readonly class ApiMarkdownGenerator
         /** @var list<PhelFunction> $groupedPhelFns */
         $groupedPhelFns = $this->apiFacade->getPhelFunctions();
 
-        foreach ($groupedPhelFns as $fn) {
-            $result[] = "## `{$fn->name()}`";
-            $result[] = "<small><strong>Namespace</strong> `{$fn->namespace()}`</small>";
-            $result[] = $fn->doc();
-            if ($fn->githubUrl() !== '') {
-                $result[] = sprintf('<small>[[View source](%s)]</small>', $fn->githubUrl());
-            }elseif ($fn->docUrl() !== '') {
-                $result[] = sprintf('<small>[[Read more](%s)]</small>', $fn->docUrl());
-            }
+        // foreach ($groupedPhelFns as $fn) {
+        //     $result[] = "## `{$fn->name()}`";
+        //     $result[] = "<small><strong>Namespace</strong> `{$fn->namespace()}`</small>";
+        //     $result[] = $fn->doc();
+        //     if ($fn->githubUrl() !== '') {
+        //         $result[] = sprintf('<small>[[View source](%s)]</small>', $fn->githubUrl());
+        //     }elseif ($fn->docUrl() !== '') {
+        //         $result[] = sprintf('<small>[[Read more](%s)]</small>', $fn->docUrl());
+        //     }
+        // }
+
+		// TODO generated markdown fails as $fn->doc() returns markdown ``` breaking shortcode function call (?)
+		foreach ($groupedPhelFns as $fn) {
+			echo $fn->doc();
+            $result[] = sprintf(
+                '{{ api_listing_entry(fn_name="%s", namespace="%s", doc="%s", %s, %s) }}',
+                $fn->name(),
+                $fn->namespace(),
+                str_replace('"', '\"', $fn->doc()),
+                $fn->githubUrl() !== '' ? ', github_url="' . $fn->githubUrl() . '"' : '',
+                $fn->docUrl() !== '' ? ', doc_url="' . $fn->docUrl() . '"' : ''
+            );
         }
 
         return $result;

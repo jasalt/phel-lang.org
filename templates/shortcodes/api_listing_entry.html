@@ -1,0 +1,10 @@
+<div class="api-listing-entry">
+  <h2 id="{{ fn_name | slugify }}"><code>{{ fn_name }}</code></h2>
+  <p><small><strong>Namespace</strong> <code>{{ namespace }}</code></small></p>
+  {{ doc | safe }}
+  {% if github_url %}
+  <p><small><a href="{{ github_url }}">View source</a></small></p>
+  {% elif doc_url %}
+  <p><small><a href="{{ doc_url }}">Read more</a></small></p>
+  {% endif %}
+</div>
