@@ -37,13 +37,15 @@ final readonly class ApiMarkdownGenerator
             $result[] = "## `{$namespace}`";
 
             foreach ($fns as $fn) {
-                $result[] = "### `{$fn->nameWithNamespace()}`";
-                $result[] = $fn->doc();
-                if ($fn->githubUrl() !== '') {
-                    $result[] = sprintf('<small>[[View source](%s)]</small>', $fn->githubUrl());
-                } elseif ($fn->docUrl() !== '') {
-                    $result[] = sprintf('<small>[[Read more](%s)]</small>', $fn->docUrl());
-                }
+                $result[] = "### `{$fn->nameWithNamespace()}`";  // NOTE: required for TOC rendering
+
+				// NOTE: docstring markdown rendering requires extra tricks on Tera template side
+                $result[] = '{{ api_listing_entry(
+                                  fn_signature="' . $fn->signature() . '"
+                                  fn_name="' . $fn->nameWithNamespace() . '"
+                                  github_url="' . $fn->githubUrl() . '"
+                                  doc_url="' . $fn->docUrl() . '"
+                                  docstring="' . $fn->description() . '") }}';
             }
         }
 

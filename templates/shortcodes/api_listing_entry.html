@@ -1,0 +1,10 @@
+<div>
+  <pre>{{ fn_signature }}</pre>
+  <p>{{ docstring }}</p>
+  {% if github_url %}
+  <a href="{{ github_url }}">Sources</a>
+  {% endif %}
+  {% if doc_url %}
+  <a href="{{ doc_url }}">See also</a>
+  {% endif %}
+</div>
