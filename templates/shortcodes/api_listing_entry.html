@@ -1,6 +1,6 @@
 <div>
   <pre>{{ fn_signature }}</pre>
-  <p>{{ docstring }}</p>
+  <p>{{ docstring | markdown | safe }}</p>
   {% if github_url %}
   <a href="{{ github_url }}">Sources</a>
   {% endif %}
